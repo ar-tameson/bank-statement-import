@@ -432,7 +432,7 @@ class OnlineBankStatementProviderPayPal(models.Model):
                 )._paypal_retrieve(url, token)
                 interval_transactions = map(
                     lambda transaction: self._paypal_preparse_transaction(transaction),
-                    data["transaction_details"],
+                    data.get("transaction_details", []),
                 )
                 transactions += list(
                     filter(

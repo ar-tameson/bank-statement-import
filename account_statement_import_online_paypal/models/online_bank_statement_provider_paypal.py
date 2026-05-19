@@ -325,10 +325,10 @@ class OnlineBankStatementProviderPayPal(models.Model):
             or ""
         )
         line = {
-            "ref": name,
+            "ref": note,
             "amount": str(total_amount),
             "date": date,
-            "payment_ref": note,
+            "payment_ref": name,
             "unique_import_id": unique_import_id,
             "raw_data": transaction,
         }
@@ -341,12 +341,12 @@ class OnlineBankStatementProviderPayPal(models.Model):
         if fee_amount:
             lines += [
                 {
-                    "ref": self.env._("Fee for %s") % (name or transaction_id),
+                    "ref": self.env._("Fee for %s") % (note or transaction_id),
                     "amount": str(fee_amount),
                     "date": date,
                     "partner_name": "PayPal",
                     "unique_import_id": f"{unique_import_id}-FEE",
-                    "payment_ref": self.env._("Transaction fee for %s", note),
+                    "payment_ref": self.env._("Transaction fee for %s", name),
                 }
             ]
         return lines
